@@ -3,28 +3,215 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RedSwap</title>
+<title>RedSwap: Shift trades built for firefighters</title>
+<meta name="description" content="RedSwap matches firefighter shift trades to your rotation, rank and certifications, tracks every IOU and payback, and connects you with businesses run by firefighters and their families.">
+<meta property="og:title" content="RedSwap: Shift trades built for firefighters">
+<meta property="og:description" content="Shift trades that find you, IOUs tracked for you, and a firefighter and family business directory.">
+<meta property="og:image" content="https://redswap.app/img/og-image.png">
+<meta property="og:url" content="https://redswap.app/">
+<meta name="theme-color" content="#121417">
+<link rel="icon" type="image/png" href="/img/favicon-64.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#121417; --card:#1c1f24; --text:#f4f2ee; --muted:#a3a9b2; --red:#f04a3e; }
-  body { margin:0; background:var(--bg); color:var(--text); font:17px/1.6 -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-  main { max-width:680px; margin:0 auto; padding:56px 16px; text-align:center; }
-  h1 { font-size:44px; margin:0; letter-spacing:1px; } h1 span { color:var(--red); }
-  p { color:var(--muted); } a { color:var(--red); }
-  .card { background:var(--card); border-radius:16px; padding:20px; margin:28px 0; text-align:left; }
-  footer { margin-top:40px; font-size:14px; color:var(--muted); }
+  :root { --bg:#121417; --bg2:#0d0e10; --card:#1a1d21; --line:#2a2e34; --text:#f4f2ee; --muted:#a3a9b2;
+          --red:#f04a3e; --gold:#c8963a; --goldSoft:#e0b866; }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--text); font:17px/1.6 Barlow, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+  a { color:var(--goldSoft); }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 20px; }
+  h1, h2, h3 { font-family:'Barlow Semi Condensed', Barlow, sans-serif; line-height:1.1; margin:0; }
+
+  /* header */
+  header { position:sticky; top:0; z-index:5; background:rgba(18,20,23,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+  header .wrap { display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .brand { display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); }
+  .brand img { width:40px; height:40px; border-radius:8px; }
+  .word { font:800 26px 'Barlow Semi Condensed', sans-serif; letter-spacing:1.5px; }
+  .word span { color:var(--red); }
+  nav a { color:var(--muted); text-decoration:none; font-weight:600; margin-left:20px; font-size:15px; }
+  nav a:hover { color:var(--text); }
+
+  /* hero */
+  .hero { padding:56px 0 40px; background:radial-gradient(900px 420px at 18% 0%, rgba(200,52,40,.22), transparent 70%); }
+  .hero .wrap { display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center; }
+  .eyebrow { display:inline-block; font:700 13px 'Barlow Semi Condensed'; letter-spacing:2px; color:var(--goldSoft);
+             border:1px solid var(--gold); border-radius:4px; padding:4px 10px; margin-bottom:18px; }
+  .hero h1 { font-size:clamp(40px, 6vw, 64px); font-weight:800; }
+  .hero h1 em { font-style:normal; color:var(--red); }
+  .hero p.lead { font-size:19px; color:#cfd3d8; margin:18px 0 26px; max-width:560px; }
+  .cta { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+  .btn { display:inline-block; padding:13px 22px; border-radius:26px; font:700 16px 'Barlow Semi Condensed'; letter-spacing:.5px; text-decoration:none; }
+  .btn.red { background:var(--red); color:#fff; }
+  .btn.ghost { border:1.5px solid var(--gold); color:var(--text); }
+  .soon { color:var(--muted); font-size:14px; margin-top:12px; }
+  .hero .shot { justify-self:center; width:min(320px, 80vw); border-radius:28px; border:1px solid var(--line);
+                box-shadow:0 30px 60px rgba(0,0,0,.55), 0 0 0 8px #1f2227; }
+
+  /* nameplate cards */
+  .plate { background:var(--bg2); border-radius:8px; padding:9px; box-shadow:0 6px 18px rgba(0,0,0,.4); }
+  .plate > div { border:1.5px solid var(--gold); border-radius:3px; padding:18px 18px 16px; height:100%; }
+  section { padding:56px 0; }
+  section h2 { font-size:clamp(30px, 4vw, 42px); font-weight:800; }
+  section .sub { color:var(--muted); margin:10px 0 28px; max-width:640px; }
+  .grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; }
+  .feature h3 { font-size:21px; margin:10px 0 6px; }
+  .feature p { color:#c3c8ce; margin:0; font-size:15.5px; }
+  .ico { width:38px; height:38px; border-radius:8px; display:grid; place-items:center; background:rgba(240,74,62,.14); color:var(--red); }
+  .ico svg { width:22px; height:22px; }
+
+  /* screenshots */
+  .shots { display:flex; gap:16px; overflow-x:auto; padding:6px 2px 18px; scroll-snap-type:x mandatory; }
+  .shots img { width:220px; flex:none; border-radius:18px; border:1px solid var(--line); scroll-snap-align:start; }
+
+  /* directory band */
+  .band { background:linear-gradient(180deg, #16181b, #101113); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .band .wrap { display:grid; grid-template-columns:.9fr 1.1fr; gap:36px; align-items:center; }
+  .band ul { padding-left:20px; color:#c3c8ce; }
+  .band li { margin:6px 0; }
+
+  /* founder */
+  .quote { font:600 24px/1.35 'Barlow Semi Condensed'; color:var(--text); }
+  .quote small { display:block; margin-top:10px; font:500 15px Barlow; color:var(--muted); }
+
+  footer { border-top:1px solid var(--line); padding:28px 0 40px; color:var(--muted); font-size:14px; }
+  footer .wrap { display:flex; flex-wrap:wrap; gap:14px 24px; justify-content:space-between; align-items:center; }
+  footer a { color:var(--muted); text-decoration:none; margin-right:16px; }
+  footer a:hover { color:var(--text); }
+
+  html, body { overflow-x:hidden; }
+  .hero .wrap > *, .band .wrap > *, .grid > * { min-width:0; }
+  .btn { max-width:100%; white-space:normal; text-align:center; }
+  @media (max-width: 860px) {
+    .hero .wrap, .band .wrap { grid-template-columns:1fr; }
+    .grid { grid-template-columns:1fr 1fr; }
+    nav { display:none; }
+  }
+  @media (max-width: 560px) {
+    .grid { grid-template-columns:1fr; }
+    .hero { padding-top:36px; }
+  }
 </style>
 </head>
 <body>
-<main>
-  <h1><span>Red</span>Swap</h1>
-  <p>Shift trades for firefighters: swaps, IOUs, your rotation calendar, and a directory of businesses run by firefighters and their families.</p>
-  <div class="card">
-    <b>Coming soon to the App Store and Google Play.</b><br>
-    Already testing with your department? Use the invite link your crew sent you.
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/"><img src="/img/logo-shield.png" alt=""><span class="word"><span>RED</span>SWAP</span></a>
+    <nav><a href="#features">Features</a><a href="#directory">Business directory</a><a href="#screens">Screens</a><a href="mailto:support@redswap.app">Contact</a></nav>
   </div>
-  <footer>
-    <a href="/privacy/">Privacy policy</a> · <a href="/terms/">Terms of use</a> · <a href="/delete-account/">Delete your account</a> · <a href="mailto:support@redswap.app">support@redswap.app</a>
-  </footer>
-</main>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">BUILT BY A FIREFIGHTER, FOR FIREFIGHTERS</div>
+      <h1>Shift trades that <em>find you.</em></h1>
+      <p class="lead">RedSwap knows your rotation, your rank and your certifications. Post a day and only crew who are off and qualified are alerted. It spots the swap for you, tracks every IOU and payback, and keeps your calendar straight.</p>
+      <div class="cta">
+        <a class="btn red" href="#features">See how it works</a>
+        <a class="btn ghost" href="#directory">Firefighter business directory</a>
+      </div>
+      <div class="soon">Coming soon to Google Play and the App Store. Testing now with departments in Texas.</div>
+    </div>
+    <img class="shot" src="/img/screen-1.jpg" alt="RedSwap shift board">
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <h2>Everything a trade needs. Nothing it doesn't.</h2>
+    <p class="sub">No more group texts, sticky notes or "who owes who." RedSwap handles the whole trade, from posting to payback.</p>
+    <div class="grid">
+      <div class="plate feature"><div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h12"/></svg></div>
+        <h3>Only shifts you can work</h3>
+        <p>Your board shows open shifts you qualify for, on days you're actually off.</p>
+      </div></div>
+      <div class="plate feature"><div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h11l-3-3M17 17H6l3 3"/></svg></div>
+        <h3>It finds the swap</h3>
+        <p>Before you post, RedSwap checks for a crew member who already fits. Three-way swaps when no two people line up.</p>
+      </div></div>
+      <div class="plate feature"><div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 .9-4.5 4.4 1 6.3L12 16.8 6.5 19.6l1-6.3L3 8.9 9 8z"/></svg></div>
+        <h3>The right people, alerted</h3>
+        <p>Rank, EMS level and certifications are matched automatically. No blasting the whole department.</p>
+      </div></div>
+      <div class="plate feature"><div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></div>
+        <h3>Knows your rotation</h3>
+        <p>Houston, Kelly, 24/48, 48/96 and more, across two departments. Trades and paybacks land on your calendar.</p>
+      </div></div>
+      <div class="plate feature"><div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="M4 10h16M8 15h4"/></svg></div>
+        <h3>Every IOU, tracked</h3>
+        <p>Who owes who, when each payback is due, and your full trade history in one place.</p>
+      </div></div>
+      <div class="plate feature"><div>
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h3>Counter-offer on your terms</h3>
+        <p>Suggest your own payback days or a standing IOU. Every confirmed trade comes with contact info.</p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section id="directory" class="band">
+  <div class="wrap">
+    <img src="/img/screen-8.jpg" alt="RedSwap crew directory" style="width:min(300px,80vw);border-radius:22px;border:1px solid var(--line);justify-self:center;box-shadow:0 20px 50px rgba(0,0,0,.5)">
+    <div>
+      <div class="eyebrow">HIRE THE CREW. SUPPORT THE BROTHERHOOD.</div>
+      <h2>A business directory for firefighters and their families.</h2>
+      <p class="sub">Firefighters run side businesses of every kind. RedSwap puts them in one place, so the money stays with the crew.</p>
+      <ul>
+        <li>Search by trade or by the job: "electrician" or "leaky faucet."</li>
+        <li>Hundreds of trades, from roofing and real estate to BBQ and photography.</li>
+        <li>Business pages with photos, services, reviews and one-tap call or text.</li>
+        <li>Every listing belongs to a verified firefighter or their family.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="screens">
+  <div class="wrap">
+    <h2>A look inside</h2>
+    <p class="sub">Swipe through the app.</p>
+    <div class="shots">
+      <img src="/img/screen-1.jpg" alt="Shift board" loading="lazy">
+      <img src="/img/screen-2.jpg" alt="Rotation calendar" loading="lazy">
+      <img src="/img/screen-3.jpg" alt="Posting a shift" loading="lazy">
+      <img src="/img/screen-4.jpg" alt="Shift request" loading="lazy">
+      <img src="/img/screen-5.jpg" alt="Counter-offer" loading="lazy">
+      <img src="/img/screen-6.jpg" alt="Trade confirmed" loading="lazy">
+      <img src="/img/screen-7.jpg" alt="IOUs" loading="lazy">
+      <img src="/img/screen-8.jpg" alt="Business directory" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="plate"><div style="padding:26px">
+      <p class="quote">"I built RedSwap because trading shifts shouldn't take a dozen texts and a spreadsheet. It should just work, the way the crew does."
+        <small>Matthew Green, founder and firefighter</small></p>
+      <p style="color:var(--muted);margin:16px 0 0">Want RedSwap for your department? Email <a href="mailto:support@redswap.app">support@redswap.app</a>.</p>
+    </div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a href="/privacy/">Privacy policy</a><a href="/terms/">Terms of use</a><a href="/delete-account/">Delete your account</a><a href="mailto:support@redswap.app">support@redswap.app</a>
+    </div>
+    <div>&copy; 2026 RedSwap. RedSwap connects members; it doesn't approve trades.</div>
+  </div>
+</footer>
+
 </body>
 </html>
